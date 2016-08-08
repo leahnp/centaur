@@ -2,13 +2,16 @@
 # ms, xAccl, yAccl, zAccl, xGyro, yGyro, zGyro
 
 # create new file for velocity data
-vel_file = open("velocity.dat", 'w')
+# vel_file = open("mpu-1470608231100_rightside_velocity.dat", 'w')
+vel_file = open("mpu-1470608231117.dat_leftside_velocity.dat", 'w')
+
 
 last_ms = 0
 last_velocity = 0
 first_line = True
 
-with open("test_data.txt", "r") as data_file:
+# with open("../data_lola/mpu-1470608231100.dat", "r") as data_file:
+with open("../data_lola/mpu-1470608231117.dat", "r") as data_file:
 
     for line in data_file:
     	line_array = line.split(' ')
@@ -28,7 +31,8 @@ with open("test_data.txt", "r") as data_file:
     	delta_velocity = (zAccl + gravity) * (ms - last_ms)
     	velocity = last_velocity + delta_velocity
 
-    	vel_file.write(str(velocity) + '\n')
+    	vel_file.write('%d %d\n' % (velocity, ms))
+    	# ('%d %d %d %d %d %d %d\n' % (ms, xAccl, yAccl, zAccl, xGyro, yGyro, zGyro))
     	# print velocity
 
     	last_ms = ms
