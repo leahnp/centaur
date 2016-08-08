@@ -11,8 +11,20 @@ import uuid
 from datetime import datetime
 from datetime import timedelta
 
+def turn_on_act_led():
+    handle = os.open('/sys/class/leds/led0/brightness', os.O_RDWR)
+    os.write(handle, '1')
+    os.close(handle)
+
+def turn_off_act_led():
+    handle = os.open('/sys/class/leds/led0/brightness', os.O_RDWR)
+    os.write(handle, '0')
+    os.close(handle)
+
 def millis_since_epoch():
 	return int(time.time() * 1000)
+
+turn_on_act_led()
 
 # set up file to write to
 filename = 'data/mpu-' + str(millis_since_epoch()) + '.dat'
@@ -43,14 +55,6 @@ time.sleep(0.8)
 # MPU-6000 address, 0x68(104)
 # Read data back from 0x3B(59), 6 bytes
 # Accelerometer X-Axis MSB, X-Axis LSB, Y-Axis MSB, Y-Axis LSB, Z-Axis MSB, Z-Axis LSB
-
-# returns the elapsed milliseconds since the start of the program
-start_time = datetime.now()
-
-def millis_since_start():
-	dt = datetime.now() - start_time
-	ms = (dt.days * 24 * 60 * 60 + dt.seconds) * 1000 + dt.microseconds / 1000.0
-	return ms
 
 def readData():
 	data = bus.read_i2c_block_data(0x68, 0x3B, 6)
@@ -116,19 +120,29 @@ DISK_perc = DISK_stats[3]
 
 # write to file
 def writeFile(xAccl, yAccl, zAccl, xGyro, yGyro, zGyro):
-	ms = millis_since_start()
+	ms = millis_since_epoch()
 	output.write('%d %d %d %d %d %d %d\n' % (ms, xAccl, yAccl, zAccl, xGyro, yGyro, zGyro))
 	return
 
-count = 0
-while (count < 1000):
+# no idea why this works, but it seems it must be turned off before it will turn on
+turn_off_act_led()
+	
+# run for ~3 minutes
+#end_time = millis_since_epoch() + 180000
+
+i = 0
+
+#while (millis_since_epoch() < end_time):
+while (i < 80810):
+	i = i + 1
+	turn_on_act_led()
 	readData()
-	count = count + 1
+
+turn_off_act_led()
 
 print "Done!"
 print DISK_total
 print DISK_free
 print DISK_perc
-print millis_since_start()
 
 output.close()
