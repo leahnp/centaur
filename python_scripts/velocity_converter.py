@@ -13,7 +13,7 @@ with open("test_data.txt", "r") as data_file:
     for line in data_file:
     	line_array = line.split(' ')
 
-    	# on the first line use ms as "last ms" and don't computer velocity
+    	# if first line use ms as "last ms" and don't computer velocity
     	if first_line == True:
     		last_ms = int(line_array[0])
     		first_line = False
@@ -23,18 +23,13 @@ with open("test_data.txt", "r") as data_file:
     	gravity = 16000
 
     	ms = int(line_array[0])
-    	# xAccl = line_array[1]
-    	# yAccl = line_array[2]
-    	zAccl = int(line_array[3])
-    	# xGyro = line_array[4]
-    	# yGyro = line_array[5]
-    	# zGyro = line_array[6]
+    	zAccl = -int(line_array[3])
 
-    	current_velocity = (zAccl - gravity) * (ms - last_ms)
-    	velocity = last_velocity + current_velocity
+    	delta_velocity = (zAccl + gravity) * (ms - last_ms)
+    	velocity = last_velocity + delta_velocity
 
-    	# vel_file.write(velocity)
-    	print velocity
+    	vel_file.write(str(velocity) + '\n')
+    	# print velocity
 
     	last_ms = ms
     	last_velocity = velocity
