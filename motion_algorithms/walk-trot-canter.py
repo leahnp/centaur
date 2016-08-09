@@ -29,22 +29,25 @@ for line in sys.stdin:
 
 	# if negative g force skip
 	# if current_z < 16384.0:
-	if current_z < 16384.0:
+	if current_z > 16384.0:
+		print "first if"
 		prev_z = current
 		prev_sec = current_sec
 		base_time = current_sec
 		continue
 
 	# check that number is still going up
-	if current_z > prev_z:
-		prev_z = current
+	if prev_z < current_z:
+		print "second if"
+		prev_z = current_z
 		prev_sec = current_sec
 		continue
 
 
 	# get top value by checking if the value has started to fall
 	# if at this point our current is SMALLER than prev, prev is top of the motion curve
-	if prev_z < 8192:
+	if prev_z > 8192:
+		print "third if"
 		motion = 0
 		# how much time has passed 
 		walking += (base_time - current_sec)
