@@ -17,23 +17,19 @@ def average_gait(time):
 	mean_list = []
 	start_sec_swap = False
 	loops = 0
+	# start_sec = 0
 
 	for line in sys.stdin:
 		split = line.rstrip().split(' ')
 
 		sec = float(split[0])
 		x = float(split[1])  / 16384.0
-		# start_sec =
-		# start_secs = secs = float(split[0]) + 
+		start_sec = sec
+
 		if start_sec_swap == False:
-			t = time + (time * loops)
-			# print t
-			start_sec = sec + t
+			start_sec = start_sec + time
 			loops += 1
 			start_sec_swap = True
-
-		# print sec
-		# print start_sec
 
 		if sec < start_sec:
 			if (x >= 0.0):
@@ -78,9 +74,53 @@ def average_gait(time):
 					min_sec = 0.0
 
 		else:
-			print len(mean_list)
+			# print mean_list
+			mean = get_mean(mean_list)
 			mean_list = []
 			start_sec_swap = False
 
 
-average_gait(.005)
+def get_mean(list):
+	# print list
+	max = []
+	min = []
+	for item in list:
+		if item[1] > 0:
+			max.append(item)
+		else:
+			min.append(item)
+	# now I have 2 array min and max values, find mean
+	grand_max = mean(max)
+	grand_min = mean(min)
+
+	# print grand_min
+	# print grand_max
+
+	if (grand_max < .40) or (grand_min > -.40):
+		print 'walk'
+	elif (grand_max < 1.25) or (grand_min > -1.25):
+		print 'trot'
+	else:
+		print 'canter'
+
+def mean(list):
+	s = 0
+	items = len(list)
+	if items == 0:
+		return
+	# REFACTOR: don't need secs at this point 
+	for item in list:
+		# print item[1]
+
+		s = s + item[1]
+	# print s
+	if s == 0:
+		return
+	mean =  (s/items)
+
+	return mean
+
+
+
+
+average_gait(0.1)
