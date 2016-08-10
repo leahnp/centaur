@@ -10,20 +10,26 @@ import sys
 #start MAX/MIN tracking when passes 16k
 axis = 'negative'
 swap = 0
-min = -50000
-min_sec = 0
-max = 50000
-max_sec = 0
+min = -.75
+min_sec = 0.0
+max = --.75
+max_sec = 0.0
 
 for line in sys.stdin:
 	split = line.rstrip().split(' ')
 
-	z = float(split[3])
+	# z = float(split[3]) / -16384.0
+	x = float(split[1])  / 16384.0
+
+	# if z < min:
+	# 	min = z
+	# if z > max:
+	# 	max = z
 
 
 	# walk check
 	# positive
-	if (z <= 16384.0) and (z > 8192):
+	if (x >= 0.0) and (x < .75):
 		# check_axis_swap(axis)
 		if axis == 'negative':
 			axis = 'positive'
@@ -31,43 +37,46 @@ for line in sys.stdin:
 		else: 
 			swap = False
 
-		if z > min:
-			min = z
-			min_sec = float(split[0])
+		if x > max:
+			# print "hi"
+			max = x
+			max_sec = float(split[0])
 
 		# print 'positive'
 
 		if swap == True:
-			# print min
-			print('%f %d %d' % (min_sec, min, 2))
-			min = -50000
-			min_sec = 0
+			# print max
+			print('%f %f %d' % (max_sec, max, 1))
+			max = 0.0
+			max_sec = 0.0
 
-	elif (z > 16384.0) and (z < 24576):
+	elif (x < 0.0) and (x > -.75):
 		# check_axis_swap(axis)
 		if axis == 'positive':
 			axis = 'negative'
 			swap = True
 		else: 
 			swap = False
-		if z < max:
-			max = z
-			max_sec = float(split[0])
+
+		if x < min:
+			# print "min hi"
+			min = x
+			min_sec = float(split[0])
 
 		# print 'negative'
 
 		if swap == True:
-			# print max
-			print('%f %d %d' % (max_sec, max, 2))
-			max = 50000
-			max_sec = 0
+			# print min
+			print('%f %f %d' % (min_sec, min, 1))
+			min = 0.0
+			min_sec = 0.0
 
 	else:
-		print('%s %s %d' % (split[0], split[3], 0))
+		print('%s %s %d' % (split[0], x, 2))
 
 
 
-
+# print min, max
 
 
 
