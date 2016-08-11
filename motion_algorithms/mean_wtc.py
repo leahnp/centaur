@@ -75,8 +75,10 @@ def average_gait(time):
 
 		else:
 			# print mean_list
-			mean = get_mean(mean_list)
-			mean_list = []
+			if len(mean_list):
+				print len(mean_list)
+				# mean = get_mean(mean_list)
+			# mean_list = []
 			start_sec_swap = False
 
 
@@ -93,17 +95,42 @@ def get_mean(list):
 	grand_max = mean(max)
 	grand_min = mean(min)
 
+	# if grand_min == None:
+	# 	continue
+	# if grand_max == None:
+	# 	continue
+
 	# print grand_min
 	# print grand_max
 
-	if (grand_max < .40) or (grand_min > -.40):
-		print 'walk'
-	elif (grand_max < 1.25) or (grand_min > -1.25):
-		print 'trot'
-	else:
-		print 'canter'
+	# if (grand_max < .40):
+	# 	print 'walk'
+
+	# elif (grand_max < 1.25):
+	# 	print 'trot'
+	# else:
+	# 	print 'canter'
+
+	# if -.75 <= grand_max <= .75:
+	# 	print 'walk' + str(grand_max)
+
+	# if -.75 <= grand_min <= .75:
+	# 	print 'walk' 
+
+	# if .75 <= grand_max <= 1.25:
+	# 	print 'trot'
+
+	# if -.75 >= grand_min >= -1.25:
+	# 	print 'trot'
+
+	# if 1.25 <= grand_max:
+	# 	print 'canter'
+
+	# if -1.25 >= grand_min:
+	# 	print 'canter'
 
 def mean(list):
+	print list
 	s = 0
 	items = len(list)
 	if items == 0:
@@ -117,10 +144,10 @@ def mean(list):
 	if s == 0:
 		return
 	mean =  (s/items)
-
+	print mean
 	return mean
 
 
 
 
-average_gait(0.1)
+average_gait(.05)
