@@ -12,9 +12,9 @@ for line in sys.stdin:
 	#for each line, split on space
   split = line.split(' ')
   #take z accel value, normalize for gravity
-  accel = (int(split[3]) / -16384.0) + 1.0
+  accel = (float(split[3]) / -16384.0) + 1.0
   #get current time
-  time = int(split[0])
+  time = float(split[0])
   #add accel to array
   average_array.append(accel)
 
