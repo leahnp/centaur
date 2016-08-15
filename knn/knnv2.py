@@ -76,13 +76,13 @@ for index, label in zip(indices[:-500], labels_test):
   array.append(label)
 
 # write KNN_LABELS to file and fill in un-labeled rows with 4....?
-# for line in knn_labels_np:
-#   if len(line) == 3:
-#     # print ms, z-accel, label
-#     print line[0] + ' ' + line[1] + ' ' + line[2] + '\n'
-#   else:
-#     # print ms, z-accel and holder label '4'
-#     print line[0] + ' ' + line[1] + ' ' + '4' + '\n'
+for line in KNN_LABELS:
+  if len(line) == 3:
+    # print ms, z-accel, label
+    print str(line[0]) + ' ' + str(line[1]) + ' ' + str(int(line[2])) + '\n'
+  else:
+    # print ms, z-accel and holder label '4'
+    print str(line[0]) + ' ' + str(line[1]) + ' ' + '4' + '\n'
 
 # print the predicted labels
 # print(labels_test)
