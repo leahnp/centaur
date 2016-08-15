@@ -58,7 +58,10 @@ knn.fit(data_train, labels_train)
 labels_test = knn.predict(data_test)
 
 # print the predicted labels
-print(labels_test)
+# print(labels_test)
 
 # print the actual labels for the test data
-print(expected_labels_test)
+# print(expected_labels_test)
+
+accuracy = getAccuracy(expected_labels_test, labels_test)
+print(accuracy)
