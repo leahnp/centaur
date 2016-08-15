@@ -17,10 +17,10 @@ with open('dat/label.dat', 'r') as dat:
   for line in dat:
     split = line.rstrip().split(' ')
     label = float(split[-1])
-    ms = float(split[0])
+    sec = float(split[0])
     z_accel = float(split[1])
     labels.append(label)
-    KNN_LABELS.append([ms, z_accel])
+    KNN_LABELS.append([sec, z_accel])
 
 # push first data into data/feature arrays (mean accel)
 data = []
@@ -69,7 +69,7 @@ labels_test = knn.predict(data_test)
 
 
 
-for index, label in zip(indices[:-500], labels_test):
+for index, label in zip(indices[-500:], labels_test):
   # use indices index to get right data points
   array = KNN_LABELS[index]
   # append generated label to array
@@ -79,13 +79,26 @@ for index, label in zip(indices[:-500], labels_test):
 for line in KNN_LABELS:
   if len(line) == 3:
     # print ms, z-accel, label
-    print str(line[0]) + ' ' + str(line[1]) + ' ' + str(int(line[2])) + '\n'
+    print str(line[0]) + ' ' + str(line[1]) + ' ' + str(int(line[2]))
   else:
     # print ms, z-accel and holder label '4'
-    print str(line[0]) + ' ' + str(line[1]) + ' ' + '4' + '\n'
+    print str(line[0]) + ' ' + str(line[1]) + ' ' + '4'
 
 # print the predicted labels
 # print(labels_test)
 
-# # print the actual labels for the test data
+# print the actual labels for the test data
 # print(expected_labels_test)
+
+# compare test and expected
+# bad = 0
+# count = 0
+# for test, expected in zip(labels_test, expected_labels_test):
+#   if test != expected:
+#     bad += 1
+#   count += 1
+
+# # percent = bad/count
+# print bad
+# print count
+
