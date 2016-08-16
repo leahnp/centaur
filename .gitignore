@@ -7,4 +7,6 @@ data_lola_mpu/
 data_lola_bak_mpu/
 old_graphs/
 knn/dat/
-knn_android/dat/
+knn_android/trianing/
+knn_android/raw/
+knn_android/predict/
