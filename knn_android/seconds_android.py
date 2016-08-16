@@ -1,12 +1,15 @@
 import sys
 
+# sys.argv[0] = script name "seconds_android.py"
+# sys.argv[1] = label
+
 first_line = True
 first_ms = 0
 
 for line in sys.stdin:
     split = line.rstrip().split(' ')
 
-    ms = int(split[0])
+    ms = float(split[0])
 
     if first_line == True:
         first_ms = ms
@@ -14,5 +17,5 @@ for line in sys.stdin:
 
     split[0] = str((ms - first_ms) / 1000.0);
 
-    print('%s %s %s %s %s %s %s' % (split[0], split[1], split[2], split[3], split[4], split[5], split[6]))
+    print('%s %s %s %s' % (split[0], split[1], split[2], split[3]))
 
