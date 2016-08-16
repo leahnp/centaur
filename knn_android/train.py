@@ -28,24 +28,13 @@ for file in input_fn:
       labels.append(split[2])
       data.append([split[3], split[4]])
 
-print labels
-exit(1)
-
-# generate a random set of indices into the label / data array
-#np.random.seed(0)
-# indices = np.random.permutation(len(data))
-
-# # convert to numpy arrays for wierd syntax below
+# convert to numpy arrays for wierd syntax below
 labels = np.array(labels)
 data = np.array(data)
 
-# # grab all but the last 500 indices, along with their associated labels / data to train with
+# grab all but the last 500 indices, along with their associated labels / data to train with
 labels_train = labels
 data_train = data
-
-# # grab the last 500 indices, and their associated labels / data to predict with
-# expected_labels_test = labels[indices[-500:]]
-# data_test = data[indices[-500:]]
 
 # create knn classifier
 from sklearn.neighbors import KNeighborsClassifier
@@ -60,12 +49,4 @@ joblib.dump(knn, output_fn)
 # reload the model to test
 #knn = joblib.load('model/knn')
 
-# # try to predict labels for the test data
-# labels_test = knn.predict(data_test)
-
-# # print the predicted labels
-# print(labels_test)
-
-# # print the actual labels for the test data
-# print(expected_labels_test)
 
