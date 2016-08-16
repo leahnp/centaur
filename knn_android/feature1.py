@@ -38,4 +38,4 @@ for line in sys.stdin:
   expire_data(time)
 
   mean_accel = window_total / len(window_data)
-  print("%f %f" % (time, mean_accel))
+  print("%f" % (mean_accel))

@@ -45,7 +45,7 @@ for line in sys.stdin:
       expire_data(time)
       
       mean_beat = window_total / len(window_data)
-      print("%f %f" % (time, mean_beat))
+      print("%f" % (mean_beat))
 
     # track last time the data crossed the x-axis
     last_time = time
