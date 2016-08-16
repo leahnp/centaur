@@ -11,9 +11,15 @@
 RAWDAT = $(wildcard raw/*.dat)
 
 # convert filenames to reference training/ directory
-TRAINDAT = $(subst raw/, training/, $(RAWDAT))
+TRAINDAT = $(subst raw/,training/,$(RAWDAT))
+# new list equals sustituting all .dat from traindat with -feature1.dat
+FEATURE1DAT = $(subst .dat,-feature1.dat,$(TRAINDAT))
 
-default: $(TRAINDAT)
+FEATURE2DAT = $(subst .dat,-feature2.dat,$(TRAINDAT))
+
+FEATUREDAT = $(FEATURE1DAT) $(FEATURE2DAT)
+
+default: model/knn
 
 # convert data from ms to seconds, trim x, y coordinates and pass argv of correct label
 # 0 - stop/transition 1 - walk 2 - trot 3 - canter
@@ -26,10 +32,25 @@ training/trot-%.dat: raw/trot-%.dat
 training/canter-%.dat: raw/canter-%.dat
 	python seconds_android.py 3 < $< > $@
 
-# create features
-# training/walk-%-feature1.dat: training/walk-%.dat
-#
+# create feature1 
+training/%-feature1.dat: training/%.dat feature1.py
+	python feature1.py < $< > $@
 
+# create feature2
+training/%-feature2.dat: training/%.dat feature2.py
+	python feature2.py < $< > $@
+
+
+
+model/knn: $(FEATUREDAT)
+	# echo $(FEATUREDAT)
+	touch model/knn 
+
+# dat/feature1.dat: feature1.py dat/resample.dat
+# 	python feature1.py < dat/resample.dat > dat/feature1.dat
+
+# dat/feature2.dat: feature2.py dat/resample.dat
+# 	python feature2.py < dat/resample.dat > dat/feature2.dat
 #model/knn: $(TRAINDAT)
 #	... generate knn model from training data ...
 # look at https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html to 
