@@ -7,20 +7,23 @@ first_line = True
 first_ms = 0
 label = sys.argv[1]
 
-	for line in sys.stdin:
-	    split = line.rstrip().split(' ')
+for line in sys.stdin:
+	split = line.rstrip().split(' ')
 
-	    ms = float(split[0])
+	ms = float(split[0])
 
-	    if first_line == True:
-	        first_ms = ms
-	        first_line = False
+	if first_line == True:
+	    first_ms = ms
+	    first_line = False
 
-	    split[0] = str((ms - first_ms) / 1000.0);
-			
-			if label:
-	    	print('%s %s %s' % (split[0], split[3], label))
-			else:
-				# for predict data
-				print('%s %s' % (split[0], split[3]))
+	split[0] = str((ms - first_ms) / 1000.0);
+
+	# old print for just secs, z, label
+	# print('%s %s %s' % (split[0], split[3], label))
+	print('%s %s %s %s %s' % (split[0], split[1], split[2], split[3], label))
+
+
+	# else:
+	# 	# for predict data
+	# 	print('%s %s' % (split[0], split[3]))
 
