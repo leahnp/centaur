@@ -12,3 +12,5 @@ knn_android/training_raw/
 knn_android/predict/
 knn_android/predict_raw/
 knn_android/model/
+knn_android/graphs/
+knn_android/old/
