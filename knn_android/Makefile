@@ -15,14 +15,16 @@ TRAINDAT = $(subst raw/, training/, $(RAWDAT))
 
 default: $(TRAINDAT)
 
+# convert data from ms to seconds, trim x, y coordinates and pass argv of correct label
+# 0 - stop/transition 1 - walk 2 - trot 3 - canter
 training/walk-%.dat: raw/walk-%.dat
-	python seconds_android.py 0 < $< > $@
-
-training/trot-%.dat: raw/trot-%.dat
 	python seconds_android.py 1 < $< > $@
 
-training/canter-%.dat: raw/canter-%.dat
+training/trot-%.dat: raw/trot-%.dat
 	python seconds_android.py 2 < $< > $@
+
+training/canter-%.dat: raw/canter-%.dat
+	python seconds_android.py 3 < $< > $@
 
 # create features
 # training/walk-%-feature1.dat: training/walk-%.dat
