@@ -19,6 +19,10 @@ FEATURE2DAT = $(subst .dat,-feature2.dat,$(TRAINDAT))
 
 FEATUREDAT = $(subst .dat,-features.dat,$(TRAINDAT))
 
+.SECONDARY: $(FEATURE1DAT) $(FEATURE2DAT)
+
+# TRAINDAT = $(subst .dat,-features.dat,$(TRAINDAT))
+
 default: model/knn
 
 # convert data from ms to seconds, trim x, y coordinates and pass argv of correct label
@@ -40,15 +44,14 @@ training/%-feature1.dat: training/%.dat feature1.py
 training/%-feature2.dat: training/%.dat feature2.py
 	python feature2.py < $< > $@
 
-# create zipped features with space in between (mean accel, mean beat)
-training/%-features.dat: training/%-feature1.dat training/%-feature2.dat
+# create zipped features with space in between (sec, z-accel, label, mean accel, mean beat)
+training/%-features.dat: training/%.dat training/%-feature1.dat training/%-feature2.dat
 	paste -d ' ' $^ > $@
 
-	
-
-model/knn: $(FEATUREDAT)
+# run train.py on features data
+model/knn: $(FEATUREDAT) train.py
 	# echo $(FEATUREDAT)
-	touch model/knn 
+	python train.py model/knn $(FEATUREDAT)
 
 # dat/feature1.dat: feature1.py dat/resample.dat
 # 	python feature1.py < dat/resample.dat > dat/feature1.dat
