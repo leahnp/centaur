@@ -10,3 +10,4 @@ knn/dat/
 knn_android/training/
 knn_android/raw/
 knn_android/predict/
+knn_android/model/
