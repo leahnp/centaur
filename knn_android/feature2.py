@@ -43,12 +43,15 @@ for line in sys.stdin:
 
       # expire old data from the window
       expire_data(time)
-      
-      mean_beat = window_total / len(window_data)
-      print("%f" % (mean_beat))
 
     # track last time the data crossed the x-axis
     last_time = time
+
+  mean_beat = 0
+  if len(window_data):
+    mean_beat = window_total / len(window_data)
+    
+  print("%f" % (mean_beat))
 
   # track accel to see when the accel crosses the x-axis
   last_accel = accel
