@@ -50,18 +50,21 @@ data_test = data[indices[-500:]]
 # create knn classifier
 from sklearn.neighbors import KNeighborsClassifier
 knn = KNeighborsClassifier()
-
+  
 # train classifier with training data
 knn.fit(data_train, labels_train) 
+
+# save out / reload the model to test
+#from sklearn.externals import joblib   
+#joblib.dump(knn, 'model/knn')
+#knn = joblib.load('model/knn')
 
 # try to predict labels for the test data
 labels_test = knn.predict(data_test)
 
 # print the predicted labels
-# print(labels_test)
+print(labels_test)
 
 # print the actual labels for the test data
-# print(expected_labels_test)
+print(expected_labels_test)
 
-accuracy = getAccuracy(expected_labels_test, labels_test)
-print(accuracy)

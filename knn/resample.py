@@ -1,5 +1,10 @@
+# resampling
+# sensor does not return data at a fixed interval
+
 import sys
 
+# takes in 10 data points to average out
+# 'smoothing the data'
 n = 10
 
 sampled_time = 0.0
