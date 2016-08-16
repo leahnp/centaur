@@ -17,19 +17,19 @@ FEATURE1DAT = $(subst .dat,-feature1.dat,$(TRAINDAT))
 
 FEATURE2DAT = $(subst .dat,-feature2.dat,$(TRAINDAT))
 
-FEATUREDAT = $(FEATURE1DAT) $(FEATURE2DAT)
+FEATUREDAT = $(subst .dat,-features.dat,$(TRAINDAT))
 
 default: model/knn
 
 # convert data from ms to seconds, trim x, y coordinates and pass argv of correct label
 # 0 - stop/transition 1 - walk 2 - trot 3 - canter
-training/walk-%.dat: raw/walk-%.dat
+training/walk-%.dat: raw/walk-%.dat seconds_android.py
 	python seconds_android.py 1 < $< > $@
 
-training/trot-%.dat: raw/trot-%.dat
+training/trot-%.dat: raw/trot-%.dat seconds_android.py
 	python seconds_android.py 2 < $< > $@
 
-training/canter-%.dat: raw/canter-%.dat
+training/canter-%.dat: raw/canter-%.dat seconds_android.py
 	python seconds_android.py 3 < $< > $@
 
 # create feature1 
@@ -40,7 +40,11 @@ training/%-feature1.dat: training/%.dat feature1.py
 training/%-feature2.dat: training/%.dat feature2.py
 	python feature2.py < $< > $@
 
+# create zipped features with space in between (mean accel, mean beat)
+training/%-features.dat: training/%-feature1.dat training/%-feature2.dat
+	paste -d ' ' $^ > $@
 
+	
 
 model/knn: $(FEATUREDAT)
 	# echo $(FEATUREDAT)
