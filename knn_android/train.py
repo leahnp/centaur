@@ -4,11 +4,6 @@ from sklearn import datasets
 import fnmatch
 import os
 
-LABEL_UNDEFINED = 0
-LABEL_WALK = 1
-LABEL_TROT = 2
-LABEL_CANTER = 3
-
 output_fn = sys.argv[1]
 if not output_fn:
   print "specify output file"
