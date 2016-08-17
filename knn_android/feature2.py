@@ -31,7 +31,7 @@ def expire_data(window_end):
 for line in sys.stdin:
   split = line.split(' ')
   time = float(split[0])
-  accel = float(split[1])
+  accel = float(split[3])
 
   # check if the accel is crossing the x-axis 
   if last_accel and (last_accel >= 0.0) != (accel >= 0.0):
@@ -51,7 +51,7 @@ for line in sys.stdin:
   if len(window_data):
     mean_beat = window_total / len(window_data)
     
-  print("%f" % (mean_beat))
+  print("%f %f" % (time, mean_beat))
 
   # track accel to see when the accel crosses the x-axis
   last_accel = accel

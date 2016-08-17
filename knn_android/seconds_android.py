@@ -20,10 +20,7 @@ for line in sys.stdin:
 
 	# old print for just secs, z, label
 	# print('%s %s %s' % (split[0], split[3], label))
+
+	# new output to expand features
 	print('%s %s %s %s %s' % (split[0], split[1], split[2], split[3], label))
-
-
-	# else:
-	# 	# for predict data
-	# 	print('%s %s' % (split[0], split[3]))
 

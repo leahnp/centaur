@@ -1,4 +1,4 @@
-# feature 1 - mean acceleration
+# feature 1 - z mean zacceleration
 
 import sys
 
@@ -7,15 +7,15 @@ WINDOW_LENGTH = 5.0
 window_data = []
 window_total = 0.0
 
-def push_data(time, accel):
+def push_data(time, zaccel):
   global window_data, window_total
-  window_data.append({ 'time': time, 'accel': accel })
-  window_total += accel
+  window_data.append({ 'time': time, 'zaccel': zaccel })
+  window_total += zaccel
 
 def pop_data():
   global window_data, window_total
   head = window_data.pop(0)
-  window_total -= head['accel']
+  window_total -= head['zaccel']
 
 def expire_data(window_end):
   global window_data, window_total
@@ -29,13 +29,13 @@ def expire_data(window_end):
 for line in sys.stdin:
   split = line.split(' ')
   time = float(split[0])
-  accel = float(split[1])
+  zaccel = float(split[3])
 
   # push new data to the window
-  push_data(time, accel)
+  push_data(time, zaccel)
 
   # expire old data from the window
   expire_data(time)
 
-  mean_accel = window_total / len(window_data)
-  print("%f" % (mean_accel))
+  mean_zaccel = window_total / len(window_data)
+  print("%f %f" % (time, mean_zaccel))

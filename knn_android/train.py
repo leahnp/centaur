@@ -8,9 +8,17 @@ LABEL_UNDEFINED = 0
 LABEL_WALK = 1
 LABEL_TROT = 2
 LABEL_CANTER = 3
+
 output_fn = sys.argv[1]
+if not output_fn:
+  print "specify output file"
+  exit(1)
+
 # array of files in /training I need to process
 input_fn = sys.argv[2:]
+if not len(input_fn):
+  print "specify input file"
+  exit(1)
 
 # halt walk trot canter
 labels = [] 
@@ -21,27 +29,26 @@ data = []
 for file in input_fn:
   with open(file, 'r') as dat:
     for line in dat:
+      # input data is in the format:
+      # time, x-accel, y-accel, z-accel, label, time, feature1, time, feature2
       split = line.rstrip().split(' ')
-      # print split[4]
-      # exit(1)
-      # secs/0, z-accel/1, label/2, feat1/3, feat2/4
-      labels.append(split[2])
-      data.append([split[3], split[4]])
+      label = int(split[4])
+      feature1 = float(split[6])
+      feature2 = float(split[8])
+      labels.append(label)
+      data.append([feature1, feature2])
 
 # convert to numpy arrays for wierd syntax below
 labels = np.array(labels)
 data = np.array(data)
 
-# grab all but the last 500 indices, along with their associated labels / data to train with
-labels_train = labels
-data_train = data
 
 # create knn classifier
 from sklearn.neighbors import KNeighborsClassifier
 knn = KNeighborsClassifier()
   
 # train classifier with training data
-knn.fit(data_train, labels_train) 
+knn.fit(data, labels) 
 
 # save out 
 from sklearn.externals import joblib   
