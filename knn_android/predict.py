@@ -13,15 +13,20 @@ with open('predict/general-632478-features.dat', 'r') as dat:
   for line in dat:
     split = line.rstrip().split(' ')
     # # secs/0, z-accel/1, label/2, feat1/3, feat2/4
-    rebuild.append([split[0], split[1]])
+    rebuild.append([split[0], split[3]])
 
-    data.append([split[5], split[6]])
+    data.append([float(split[6]), float(split[8])])
 
 data = np.array(data)
 
 # # try to predict labels for the test data
 labels_test = knn.predict(data)
+labels_probability = knn.predict_proba(data)
+# print len(labels_test)
+# print len(data)
 
+# check probability
+# if max value is 
 
-for i, label in zip(rebuild, labels_test):
-  print str(i[0]) + ' ' + str(i[1]) + ' ' + label
+for i, label, proba in zip(rebuild, labels_test, labels_probability):
+  print str(i[0]) + ' ' + str(i[1]) + ' ' + str(label) + ' ' + str(proba)
