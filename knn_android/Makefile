@@ -18,16 +18,16 @@ default: model/knn $(PREDICTDAT)
 # convert data from ms to seconds, trim x, y coordinates and pass argv of correct label
 # 0 - stop/transition 1 - walk 2 - trot 3 - canter
 training/walk-%-processed.dat: training_raw/walk-%.dat seconds_android.py
-	python seconds_android.py 1 < $< > $@
+	python seconds_android.py 0 < $< > $@
 
 training/trot-%-processed.dat: training_raw/trot-%.dat seconds_android.py
-	python seconds_android.py 2 < $< > $@
+	python seconds_android.py 1 < $< > $@
 
 training/canter-%-processed.dat: training_raw/canter-%.dat seconds_android.py
-	python seconds_android.py 3 < $< > $@
+	python seconds_android.py 2 < $< > $@
 
 predict/%-processed.dat: predict_raw/%.dat seconds_android.py
-	python seconds_android.py 5 < $< > $@
+	python seconds_android.py 3 < $< > $@
 
 # create feature1 (for all directories)
 %-feature1.dat: %-processed.dat feature1.py
