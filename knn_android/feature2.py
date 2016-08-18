@@ -2,7 +2,7 @@
 
 import sys
 
-WINDOW_LENGTH = 5.0
+WINDOW_LENGTH = 2.0
 
 last_accel = None
 last_time = None
@@ -36,7 +36,7 @@ for line in sys.stdin:
   # check if the accel is crossing the x-axis 
   if last_accel and (last_accel >= 0.0) != (accel >= 0.0):
     if last_time:
-      beat = time - last_time
+      beat = (time - last_time)**0.5
 
       # push new data to the window
       push_data(time, beat)
