@@ -4,21 +4,23 @@ from sklearn import datasets
 import fnmatch
 import os
 
-output_fn = sys.argv[1]
-if not output_fn:
+if len(sys.argv) < 2:
   print "specify output file"
   exit(1)
 
+output_fn = sys.argv[1]
+
 # array of files in /training I need to process
-input_fn = sys.argv[2:]
-if not len(input_fn):
-  print "specify input file"
+if len(sys.argv) < 3:
+  print "specify input file(s)"
   exit(1)
+
+input_fn = sys.argv[2:]
 
 # halt walk trot canter
 labels = [] 
 # feature 1, feature 2 subarrays
-data = []
+features = []
 # for file in os.listdir('./training'):
 #   if fnmatch.fnmatch(file, '*-features.dat'):
 for file in input_fn:
@@ -27,28 +29,22 @@ for file in input_fn:
       # input data is in the format:
       # time, x-accel, y-accel, z-accel, label, time, feature1, time, feature2
       split = line.rstrip().split(' ')
-      label = int(split[4])
-      feature1 = float(split[6])
-      feature2 = float(split[8])
-      labels.append(label)
-      data.append([feature1, feature2])
+      labels.append(int(split[4]))
+      features.append([float(split[6]), float(split[8]), float(split[10])])
 
 # convert to numpy arrays for wierd syntax below
 labels = np.array(labels)
-data = np.array(data)
-
+features = np.array(features)
 
 # create knn classifier
 from sklearn.neighbors import KNeighborsClassifier
 knn = KNeighborsClassifier()
   
 # train classifier with training data
-knn.fit(data, labels) 
+knn.fit(features, labels) 
 
 # save out 
 from sklearn.externals import joblib   
 joblib.dump(knn, output_fn)
-# reload the model to test
-#knn = joblib.load('model/knn')
 
 
